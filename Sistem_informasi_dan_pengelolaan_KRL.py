@@ -1,7 +1,7 @@
 from tabulate import tabulate
 import math
 
-listRendah = [
+listOtoritasRendah = [
     {"idPerjalanan": "P95AKBKA0PNP01", "id": "P95AKBKA0PNP", "nama": "Akbar Kanugraha", "tahunLahir": 1995, "jenisKelamin": "Pria", "stasiunKeberangkatan": "Bogor", "stasiunTujuan": "Depok"},
     {"idPerjalanan": "P90ANDPA00BL2", "id": "P90ANDPA00BL", "nama": "Andi Pratama", "tahunLahir": 1990, "jenisKelamin": "Pria", "stasiunKeberangkatan": "Cilebut", "stasiunTujuan": "Manggarai"},
     {"idPerjalanan": "W92SITAH0PNP3", "id": "W92SITAH0PNP", "nama": "Siti Aisyah", "tahunLahir": 1992, "jenisKelamin": "Wanita", "stasiunKeberangkatan": "Bekasi", "stasiunTujuan": "Sudirman"},
@@ -53,7 +53,7 @@ listRendah = [
     {"idPerjalanan": "P91HENKS0PNP49", "id": "P91HENKS0PNP", "nama": "Hendra Koes", "tahunLahir": 1991, "jenisKelamin": "Pria", "stasiunKeberangkatan": "Pondok Jati", "stasiunTujuan": "Kemayoran"},
     {"idPerjalanan": "W01AMACA0PNP50", "id": "W01AMACA0PNP", "nama": "Amara Cantika", "tahunLahir": 2001, "jenisKelamin": "Wanita", "stasiunKeberangkatan": "Poris", "stasiunTujuan": "Tanah Tinggi"}
 ]
-listMenengah = [
+listOtoritasMenengah = [
     {
         "id": "P90ANDPA00BL",
         "nama": "Andi Pratama",
@@ -100,7 +100,7 @@ listMenengah = [
         "region": "Cikarang Loop Line"
     }
 ]
-listTinggi = [
+listOtoritasTinggi = [
     {
         "id": "P01AKBKA00DO",
         "nama": "Akbar Kanugraha",
@@ -249,8 +249,8 @@ dataKrl = [
 ]
 
 def tabelKrlSebagian(line):
-    header = ["No", "Stasiun", "Status"]
-    header2 = ["No", "Stasiun", "Status", "Rute Via"]
+    header = ["No", "Stasiun", "Status", "Transit"]
+    header2 = ["No", "Stasiun", "Status", "Rute Via", "Transit"]
     row = []
     stasiunTercatat = []
     nomor = 1
@@ -260,7 +260,7 @@ def tabelKrlSebagian(line):
         if i["line"] == line:
             if "stasiun" in i:
                 for st in i["stasiun"]:
-                    tabelData = [st, i['stasiun'][st]['nama'], i['stasiun'][st]['status']]
+                    tabelData = [st, i['stasiun'][st]['nama'], i['stasiun'][st]['status'], i['stasiun'][st]['transit']]
                     row.append(tabelData)
                 print(tabulate(row, headers = header, tablefmt = "double_outline"), "\n")
             elif "sub rute" in i:
@@ -268,7 +268,7 @@ def tabelKrlSebagian(line):
                     print(f"Rute Via {via}:")
                     for st2 in i["sub rute"][via]:
                         if i['sub rute'][via][st2]['nama'] not in stasiunTercatat:
-                            tabelData = [nomor, i['sub rute'][via][st2]['nama'] , i['sub rute'][via][st2]['status'], via]
+                            tabelData = [nomor, i['sub rute'][via][st2]['nama'] , i['sub rute'][via][st2]['status'], via, i['sub rute'][via][st2]['transit']]
                             row.append(tabelData)
                             stasiunTercatat.append(i['sub rute'][via][st2]['nama'])
                             nomor += 1
@@ -278,13 +278,13 @@ def tabelUser(listUser):
     header2 = ["ID", "Nama", "Tahun Lahir", "Jenis Kelamin", "Jabatan", "Region", "Password"]
     row =[]
 
-    if listUser == listRendah:
+    if listUser == listOtoritasRendah:
         print("\n======================================= Berikut Merupakan Data Penumpang =======================================")
         for i in listUser:
             tabeldata = [i['idPerjalanan'],i['id'], i['nama'], i['tahunLahir'], i['jenisKelamin'], i['stasiunKeberangkatan'], i['stasiunTujuan']]
             row.append(tabeldata)
         print(tabulate(row, headers=header, tablefmt="double_outline"), "\n")
-    elif listUser == listMenengah:    
+    elif listUser == listOtoritasMenengah:    
         print("\n========================== Berikut Merupakan Data Kepala Cabang ==========================")
         for i in listUser:
             tabeldata = [i['id'], i['nama'], i['tahunLahir'], i['jenisKelamin'], i['jabatan'], i['region'], i['password']]
@@ -295,26 +295,26 @@ def tabelPenumpangSebagian(line):
     row = []
 
     print(f"\n========================================= Tabel Penumpang di {line} =======================================")
-    for i in listRendah:
+    for i in listOtoritasRendah:
         if i["stasiunKeberangkatan"] in namaStasiun(line) or i["stasiunTujuan"] in namaStasiun(line):
             tabeldata = [i['id'], i['nama'], i['tahunLahir'], i['jenisKelamin'], i['stasiunKeberangkatan'], i['stasiunTujuan']]
             row.append(tabeldata)
     print(tabulate(row, headers=header, tablefmt="double_outline"), "\n")
-def tabelBedasarkanID(listUser, ID=None):
+def cetakLaporanTabel(listUser, ID=None):
     header = ["ID Perjalanan","ID", "Nama", "Tahun Lahir", "Jenis Kelamin", "Stasiun Keberangkatan", "Stasiun Tujuan"]
     header2 = ["ID", "Nama", "Tahun Lahir", "Jenis Kelamin", "Jabatan", "Region", "Password"]
-    header3 = ["No", "Nama Stasiun", "Status"]
+    header3 = ["No", "Nama Stasiun", "Status", "Transit"]
     header4 = ["No", "ID", "Nama Line"]
     row = []
 
-    if listUser == listRendah:
+    if listUser == listOtoritasRendah:
         print(f"\n==================================== Tabel Penumpang dengan ID {ID} ===================================")
         for i in listUser:
             if i["id"] == ID:
                 tabeldata = [i['idPerjalanan'], i['id'], i['nama'], i['tahunLahir'], i['jenisKelamin'], i['stasiunKeberangkatan'], i['stasiunTujuan']]
                 row.append(tabeldata)
         print(tabulate(row, headers=header, tablefmt="double_outline"), "\n")
-    elif listUser == listMenengah:
+    elif listUser == listOtoritasMenengah:
         print(f"\n===================================== Tabel Kepala Cabang dengan ID {ID} =====================================")
         for i in listUser:
             if i["id"] == ID:
@@ -322,21 +322,21 @@ def tabelBedasarkanID(listUser, ID=None):
                 row.append(tabeldata)
         print(tabulate(row, headers=header2, tablefmt="double_outline"), "\n")
     elif listUser == dataKrl:
-        print(f"\n======= Tabel Tambah Stasiun ========")
+        print(f"\n=========== Tabel Stasiun =============")
         for i in dataKrl:
-            tabeldata = [i['id'][-1] ,i['id'], i['line']]
+            tabeldata = [i['id'][-1] ,i['id'], i['line'] ]
             row.append(tabeldata)
         print(tabulate(row, headers=header4, tablefmt="double_outline"), "\n")
     elif type(listUser) == dict:        
-        print(f"\n=== Tabel Tambah Stasiun ====") 
-        tabeldata = [1, listUser['nama'], listUser['status']]
+        print(f"\n======= Tabel Tambah Stasiun =======") 
+        tabeldata = [1, listUser['nama'], listUser['status'], listUser["transit"] ]
         row.append(tabeldata)
         print(tabulate(row, headers=header3, tablefmt="double_outline"), "\n")
-    elif type(listUser) == list and listUser not in [listMenengah, listRendah, listTinggi]:
+    elif type(listUser) == list and listUser not in [listOtoritasMenengah, listOtoritasRendah, listOtoritasTinggi]:
         print(f"\n======== Tabel Stasiun =========") 
         nomor = 1
         for i in listUser:
-            tabeldata = [nomor, i['nama'], i['status']]
+            tabeldata = [nomor, i['nama'], i['status'], i["transit"]]
             row.append(tabeldata)
             nomor +=1
         print(tabulate(row, headers=header3, tablefmt="double_outline"), "\n")
@@ -401,7 +401,7 @@ def pembuatanIdRendah(nama, lahir, jenisKelamin):
         namaId2 = namaSplit[1][0] + namaSplit[1][-1]
     else :
         namaId2 = "NO"
-    ID = f"{jenisKelamin[0]}{keyLahir[-2:]}{namaId1.upper()}{namaId2.upper()}{0}PNP"
+    ID = f"{jenisKelamin[0]}{keyLahir[-2:]}{namaId1.upper():0<3}{namaId2.upper()}{0}PNP"
     return ID
 def pembuatanIdMenengah(nama, lahir, jenisKelamin, region):
     keyLahir = str(lahir)
@@ -416,20 +416,20 @@ def pembuatanIdMenengah(nama, lahir, jenisKelamin, region):
         regionID =  f"{regionSplit[0][0]}{regionSplit[1][0]}{regionSplit[2][0]}"
     else :
         regionID =  f"0{regionSplit[0][0]}{regionSplit[1][0]}"
-    ID = f"{jenisKelamin[0]}{keyLahir[-2:]}{namaId1.upper()}{namaId2.upper()}{0}{regionID}"
+    ID = f"{jenisKelamin[0]}{keyLahir[-2:]}{namaId1.upper():0<3}{namaId2.upper()}{0}{regionID}"
     return ID
 
 def kategoriUser(nama, tahunLahir, jenisKelamin):
     ditemukan = False
-    for i in range(len(listTinggi)):
-        if nama == listTinggi[i]["nama"] and tahunLahir == listTinggi[i]["tahunLahir"] and jenisKelamin == listTinggi[i]["jenisKelamin"]:
+    for i in range(len(listOtoritasTinggi)):
+        if nama == listOtoritasTinggi[i]["nama"] and tahunLahir == listOtoritasTinggi[i]["tahunLahir"] and jenisKelamin == listOtoritasTinggi[i]["jenisKelamin"]:
             ditemukan = True
-            return "Tinggi", listTinggi[i]
+            return "Tinggi", listOtoritasTinggi[i]
     if ditemukan == False:
-        for i in range(len(listMenengah)):
-            if nama == listMenengah[i]["nama"] and tahunLahir == listMenengah[i]["tahunLahir"] and jenisKelamin == listMenengah[i]["jenisKelamin"]:
+        for i in range(len(listOtoritasMenengah)):
+            if nama == listOtoritasMenengah[i]["nama"] and tahunLahir == listOtoritasMenengah[i]["tahunLahir"] and jenisKelamin == listOtoritasMenengah[i]["jenisKelamin"]:
                 ditemukan = True
-                return "Menengah", listMenengah[i]
+                return "Menengah", listOtoritasMenengah[i]
     if ditemukan == False:
         return "Rendah", None
 def namaStasiun(line):
@@ -473,7 +473,7 @@ def loginPass(listOtoritas, nama, lahir, jenisKelamin):
 
 def ruteRekomendasi(nama,  lahir, jenisKelamin):
     listIdPj = []
-    for i in listRendah:
+    for i in listOtoritasRendah:
         listIdPj.append(int(i["idPerjalanan"][12:]))
     if len(listIdPj) == 0:
         nomorTambahan = 1
@@ -518,7 +518,7 @@ def ruteRekomendasi(nama,  lahir, jenisKelamin):
         print(f"""
 Stasiun {naik} dan {turun} berada di jalur yang sama ({lineAsal})
 Silakan naik kereta langsung tanpa transit.""")
-        listRendah.append(listPenumpang)
+        listOtoritasRendah.append(listPenumpang)
     elif lineAsal == "" or lineTujuan == "":
         print("\nMaaf stasiun keberangkatan atau stasiun tujuan tidak ditemukan di sistem.")
     else :
@@ -543,7 +543,7 @@ Silakan hubungi petugas untuk rute alternatif.""")
             print(f"""
 Rute ditemukan, namun memerlukan lebih dari satu kali transit atau rute khusus.
 Silahkan bertanya ke petugas terdekat.""")
-        listRendah.append(listPenumpang)  
+        listOtoritasRendah.append(listPenumpang)  
 
 def AvgLahir(listAvg):
     avg = sum(listAvg)/len(listAvg)
@@ -555,7 +555,7 @@ def statistikPenumpang(listStasiun, line):
     lahirPria = []
     lahirWanita = []
     
-    for j in listRendah:
+    for j in listOtoritasRendah:
         if j["stasiunKeberangkatan"] in listStasiun or j["stasiunTujuan"] in listStasiun:
             listPenumpang.append(j)
             if j["jenisKelamin"] == "Pria":
@@ -603,11 +603,11 @@ def melihatDataStatistikRendah(line, role):
             elif userPilih == "2":
                 masukkanID = input("Masukkan ID Penumpang yang Ingin Dilihat Datanya: ").strip().upper()
                 listID = []
-                for p in listRendah:
+                for p in listOtoritasRendah:
                     if p["stasiunKeberangkatan"] in listStasiun or p["stasiunTujuan"] in listStasiun:
                         listID.append(p["id"])
                 if masukkanID in listID:
-                    tabelBedasarkanID(listRendah, masukkanID)
+                    cetakLaporanTabel(listOtoritasRendah, masukkanID)
                 else:
                     print("Maaf, ID yang Anda Masukkan Tidak Ditemukan.\n")
             elif userPilih == "3":
@@ -637,7 +637,7 @@ def perubahanStatus (namaStasiun, statusSekarang, menjadiStatus):
     listStTransit = stasiunTransit()
     if namaStasiun in listStTransit:
         print(f"Stasiun {namaStasiun} Adalah Stasiun Transit")
-        print(f"Jika Anda Men{(menjadiStatus).lower()}nya, Semua Stasiun {namaStasiun} Akan {(menjadiStatus).title()} di Semua Line")
+        print(f"Jika Anda Men{(menjadiStatus).lower()}nya, Semua Stasiun {namaStasiun} Akan {(menjadiStatus).title()} di Semua Line\n")
         userUbahInput = validasiDuaPilihan(f"Apakah Anda Yakin men{(menjadiStatus).lower()}nya?(ya/tidak) ", "Ya", "Tidak").strip().title()
         if userUbahInput == "Ya":
             for jalur in dataKrl:
@@ -701,10 +701,10 @@ def updateStatusStasiun (line, role):
         prosesUbahStatus(line)
 
 def gantiKepalaCabang(line):
-        for i in listMenengah:
+        for i in listOtoritasMenengah:
             if i["region"] == line:
                 ID = i["id"]
-                tabelBedasarkanID(listMenengah, ID)
+                cetakLaporanTabel(listOtoritasMenengah, ID)
                 continueGanti = validasiDuaPilihan("Apakah Anda Yakin Ingin Mengganti Data Ini?(ya/tidak) ", "Ya", "Tidak")
                 if continueGanti == "Ya":
                     sebagianSeluruhKolom = validasiDuaPilihan("Apakah Anda Ingin Mengganti Seluruh Kolom atau Sebagian Data Kepala Cabang Saja?(seluruh/sebagian) ", "Seluruh", "Sebagian")
@@ -789,12 +789,13 @@ def createCikarangVia(via):
                         if j == via:
                             for k in i["sub rute"][j]:
                                 listDictBaru.append(i["sub rute"][via][k])
-                    statusStasiunBaru = validasAktifNonaktif("Masukkan Status Stasiun (Aktif/Nonaktif): ")
-                    dictStasiunBaru = {"nama": namaStasiunBaru, "status": statusStasiunBaru}
-                    tabelBedasarkanID(dictStasiunBaru, namaStasiunBaru)
+                    statusStasiunBaru = validasiDuaPilihan("Masukkan Status Stasiun (Aktif/Nonaktif): ", "Aktif", "Nonaktif")
+                    apakahStTransit = validasiDuaPilihan("Apakah Stasiun Ini Termasuk Stasiun Transit?(Termasuk/Tidak) ", "Termasuk", "Tidak")
+                    dictStasiunBaru = {"nama": namaStasiunBaru, "status": statusStasiunBaru, "transit": apakahStTransit}
+                    cetakLaporanTabel(dictStasiunBaru, namaStasiunBaru)
                     apakahBenar = validasiDuaPilihan("Apakah Sudah Benar Data Stasiun yang Ingin di Tambah?(sudah/belum) ", "Sudah", "Belum")
                     if apakahBenar == "Sudah":
-                        tabelBedasarkanID(listDictBaru)
+                        cetakLaporanTabel(listDictBaru)
                         posisiStasiun = validasiAngka("Pilih Nomor Urut Posisi Stasiun (Stasiun Lama Akan Bergeser ke Bawah): ", "Pilihan", 1, len(listDictBaru), 2)
                         apakahSave = validasiDuaPilihan(f"Apakah Anda Yakin Untuk Menambah Stasiun {namaStasiunBaru} di Urutan ke-{posisiStasiun}?(ya/tidak) ", "Ya", "Tidak")
                         if apakahSave == "Ya":    
@@ -822,12 +823,13 @@ def createSelainCikarang(line):
                     if "stasiun" in i:
                         for j in i["stasiun"]:
                             listDictBaru.append(i["stasiun"][j])
-                    statusStasiunBaru = validasAktifNonaktif("Masukkan Status Stasiun (Aktif/Nonaktif): ")
-                    dictStasiunBaru = {"nama": namaStasiunBaru, "status": statusStasiunBaru}    
-                    tabelBedasarkanID(dictStasiunBaru)
+                    statusStasiunBaru = validasiDuaPilihan("Masukkan Status Stasiun (Aktif/Nonaktif): ", "Aktif", "Nonaktif")
+                    apakahStTransit = validasiDuaPilihan("Apakah Stasiun Ini Termasuk Stasiun Transit?(Termasuk/Tidak) ", "Termasuk", "Tidak")
+                    dictStasiunBaru = {"nama": namaStasiunBaru, "status": statusStasiunBaru, "transit": apakahStTransit}    
+                    cetakLaporanTabel(dictStasiunBaru)
                     apakahBenar = validasiDuaPilihan("Apakah Sudah Benar Data Stasiun yang Ingin di Tambah?(sudah/belum) ", "Sudah", "Belum")
                     if apakahBenar == "Sudah":
-                        tabelBedasarkanID(listDictBaru)
+                        cetakLaporanTabel(listDictBaru)
                         posisiStasiun = validasiAngka("Pilih Nomor Urut Posisi Stasiun (Stasiun Lama Akan Bergeser ke Bawah): ", "Pilihan", 0, len(listDictBaru), 2)
                         apakahSave = validasiDuaPilihan(f"Apakah Anda Yakin Untuk Menambah Stasiun {namaStasiunBaru} di Urutan ke-{posisiStasiun}?(ya/tidak) ", "Ya", "Tidak")
                         if apakahSave == "Ya":
@@ -856,7 +858,7 @@ while True:
         jenisKelamin = validasiDuaPilihan("Masukkan Jenis Kelamin Anda?(Pria/Wanita ) ", "Pria", "Wanita")
         catUser , iterasi = kategoriUser(nama, lahir, jenisKelamin)
         if catUser == "Menengah": 
-            userPercobaan = loginPass (listMenengah, nama, lahir, jenisKelamin)
+            userPercobaan = loginPass (listOtoritasMenengah, nama, lahir, jenisKelamin)
             if userPercobaan == 3:
                 print("Anda Sudah Melebihi Batas Coba, Silahkan Coba Beberapa Saat Lagi")
                 continue
@@ -880,7 +882,7 @@ Saat ini Anda memiliki akses penuh untuk:
                     else:
                         print("Opsi yang Anda Masukkan Tidak Valid\n")
         elif catUser == "Tinggi":
-            userPercobaan = loginPass(listTinggi, nama, lahir, jenisKelamin)
+            userPercobaan = loginPass(listOtoritasTinggi, nama, lahir, jenisKelamin)
             if userPercobaan == 3:
                 print("Anda Sudah Melebihi Batas Coba, Silahkan Coba Beberapa Saat Lagi\n")
                 continue
@@ -906,14 +908,14 @@ Saat ini Anda memiliki akses penuh untuk:
 5. Kembali ke Menu Utama""")
                             userPilih = input("\nMasukkan Pilihan Anda Bedasarkan Nomor: ").strip()
                             if userPilih == "1":
-                                tabelUser(listRendah)
+                                tabelUser(listOtoritasRendah)
                             elif userPilih == "2":
                                 masukkanID = input("\nMasukkan ID Penumpang yang Ingin Dilihat Datanya: ").strip().upper()
                                 listID = []
-                                for p in listRendah:
+                                for p in listOtoritasRendah:
                                     listID.append(p["id"])
                                 if masukkanID in listID:
-                                    tabelBedasarkanID(listRendah, masukkanID)      
+                                    cetakLaporanTabel(listOtoritasRendah, masukkanID)      
                                 else:
                                     print("Maaf, ID yang Anda Masukkan Tidak Ditemukan.\n")
                             elif userPilih == "3":
@@ -938,7 +940,7 @@ Saat ini Anda memiliki akses penuh untuk:
                     elif fiturAkses == "2":
                         while True:
                             listID = []
-                            tabelBedasarkanID(dataKrl)
+                            cetakLaporanTabel(dataKrl)
                             for i in dataKrl:
                                 listID.append(i["id"])
                             pilihID = input("\nMasukkan Line yang Ingin Dipilih Bedasarkan ID: ").strip().upper()
@@ -965,7 +967,7 @@ Saat ini Anda memiliki akses penuh untuk:
                             else:
                                 print("Input yang Anda Masukkan Tidak Valid!")
                     elif fiturAkses == "3":
-                        if len(listRendah) == 0:
+                        if len(listOtoritasRendah) == 0:
                             print("Tidak Ada Data Penumpang yang Dapat Diproses untuk Penghapusan")
                         else:
                             while True:
@@ -975,36 +977,36 @@ Saat ini Anda memiliki akses penuh untuk:
 2. Kembali ke Menu Utama.""")
                                 userPilih = input("\nMasukkan Pilihan Anda Bedasarkan Nomor: ").strip()
                                 if userPilih == "1":
-                                    tabelUser(listRendah)
+                                    tabelUser(listOtoritasRendah)
                                     pilihIdRendah = input("Masukkan ID Pengguna yang ingin di hapus: ").strip().upper()
                                     listID = []
-                                    for p in listRendah:
+                                    for p in listOtoritasRendah:
                                         listID.append(p["id"])
 
                                     if pilihIdRendah in listID:
                                         listIndex=[]
-                                        for p in range(len(listRendah)):
-                                            if listRendah[p]["id"] == pilihIdRendah:
+                                        for p in range(len(listOtoritasRendah)):
+                                            if listOtoritasRendah[p]["id"] == pilihIdRendah:
                                                 listIndex.append(p)
-                                        tabelBedasarkanID(listRendah, pilihIdRendah)
+                                        cetakLaporanTabel(listOtoritasRendah, pilihIdRendah)
                                         if len(listIndex) > 1:
                                             apakahHapus = validasiDuaPilihan("Apakah Anda Yakin untuk Menghapus Data Ini?(ya/tidak) ", "Ya", "Tidak")
                                             if apakahHapus == "Ya":
                                                 apakahHapusSemua = validasiDuaPilihan("Mau Hapus Sekaligus atau Sebagian:(sekaligus/sebagian) ", "Sekaligus", "Sebagian")
                                                 if apakahHapusSemua == "Sekaligus":
                                                     for i in sorted(listIndex, reverse = True):
-                                                        dataDihapus = listRendah.pop(i)
+                                                        dataDihapus = listOtoritasRendah.pop(i)
                                                     print(f"\nData {dataDihapus['nama']} dengan ID {dataDihapus['id']} berhasil dihapus.\n")
                                                 elif apakahHapusSemua == "Sebagian":
                                                     listIdPerjalanan = []
-                                                    for i in listRendah:
+                                                    for i in listOtoritasRendah:
                                                         if i["id"] == pilihIdRendah:
                                                             listIdPerjalanan.append(i["idPerjalanan"])
                                                     pilihIDpj = input("Masukkan ID Perjalanan yang ingin Anda Hapus: ").strip().upper()
                                                     if pilihIDpj in listIdPerjalanan:
-                                                        for i in range(len(listRendah)):
-                                                            if listRendah[i]["idPerjalanan"] == pilihIDpj:
-                                                                dataDihapus = listRendah.pop(i)
+                                                        for i in range(len(listOtoritasRendah)):
+                                                            if listOtoritasRendah[i]["idPerjalanan"] == pilihIDpj:
+                                                                dataDihapus = listOtoritasRendah.pop(i)
                                                                 break
                                                         print(f"\nData {dataDihapus['nama']} dengan ID Perjalanan {dataDihapus['idPerjalanan']} berhasil dihapus.\n")
                                                     else:
@@ -1014,7 +1016,7 @@ Saat ini Anda memiliki akses penuh untuk:
                                         elif len(listIndex) == 1:    
                                             apakahHapus = validasiDuaPilihan("Apakah Anda Yakin untuk Menghapus Data Ini?(ya/tidak) ", "Ya", "Tidak")
                                             if apakahHapus == "Ya":
-                                                dataDihapus = listRendah.pop(listIndex[0])
+                                                dataDihapus = listOtoritasRendah.pop(listIndex[0])
                                                 print(f"\nData {dataDihapus['nama']} dengan ID {dataDihapus['id']} berhasil dihapus.\n")
                                             elif apakahHapus == "Tidak":
                                                 print("\nBaik, Data Tidak Akan Dihapus.\n")
