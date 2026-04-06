@@ -1,187 +1,141 @@
-Sistem Manajemen Rute KRL Jabodetabek
+# 🚆 Sistem Manajemen Rute KRL Jabodetabek
 
-Capstone Project Modul 1 - Data Science & Machine Learning Program
+Capstone Project Modul 1 - Data Science & Machine Learning Program\
+**Institution:** Purwadhika Digital School
 
-Institution: Purwadhika Digital School
+------------------------------------------------------------------------
 
-Creator: (Isi Nama Kamu)
+## 📌 Project Overview
 
-Project Overview
+Proyek **Sistem Manajemen Rute KRL** bertujuan untuk mengembangkan
+sistem pengelolaan data transportasi umum berbasis Python yang
+terstruktur dalam pengelolaan jalur Kereta Rel Listrik (KRL),
+stasiun, data penumpang, serta data petugas.
 
-Proyek Sistem Manajemen Rute KRL bertujuan untuk mengembangkan sistem pengelolaan data transportasi umum berbasis Python yang terstruktur dalam mendokumentasikan jalur Kereta Rel Listrik (KRL), stasiun, percabangan rute, serta data penumpang. Sistem ini dirancang untuk membantu pengelolaan informasi transportasi secara terorganisir, mendukung analisis statistik penumpang, serta menyediakan simulasi pengambilan keputusan bagi otoritas transportasi.
+Sistem ini dirancang untuk membantu pengelolaan informasi transportasi
+secara terorganisir, serta mendukung analisis statistik penumpang
 
-Proyek ini menerapkan alur kerja pengelolaan data secara end-to-end menggunakan konsep CRUD (Create, Read, Update, Delete), validasi input pengguna, serta sistem otorisasi berbasis hierarki. Fokus utama diberikan pada menjaga konsistensi data rute, kemudahan pengelolaan stasiun, serta fleksibilitas sistem untuk pengembangan di masa mendatang.
+Proyek ini menerapkan konsep **CRUD (Create, Read, Update, Delete)**,
+validasi input pengguna, serta sistem otorisasi berbasis hierarki.
 
-Context, Problem, and User
-Context
+------------------------------------------------------------------------
 
-Sistem transportasi KRL memiliki banyak jalur, stasiun, serta percabangan rute yang membutuhkan struktur data yang jelas agar mudah dikelola dan dianalisis.
+## 🎯 Context, Problem, and User
 
-Problem
+### Context
 
-Pengelolaan data rute dan stasiun tanpa sistem terstruktur berisiko menyebabkan:
+Sistem transportasi KRL memiliki banyak jalur, stasiun, serta
+percabangan rute yang membutuhkan struktur data jelas agar mudah
+dikelola dan dianalisis.
 
-Data tidak konsisten
+### Problem
 
-Kesulitan dalam pembaruan informasi stasiun
+Pengelolaan data tanpa sistem terstruktur berisiko menyebabkan:
 
-Sulit melakukan analisis statistik penumpang
+-   Data tidak konsisten\
+-   Kesulitan pembaruan informasi stasiun\
+-   Sulit melakukan analisis statistik penumpang\
 
-Tidak adanya pembagian hak akses pengguna
+### User
 
-User
+Sistem memiliki tiga kategori pengguna:
 
-Sistem memiliki tiga kategori pengguna berdasarkan tingkat otoritas:
+1.  **Otoritas Tinggi (Direktur/Wakil Direktur)**
+    -   Akses penuh sistem
+    -   Mengelola jalur KRL
+    -   Mengelola data penumpang
+2.  **Otoritas Menengah (Kepala Cabang)**
+    -   Mengelola data stasiun cabang yang dikelola
+    -   Melihat statistik penumpang cabang yang dikelola
+3.  **Pengguna Umum**
+    -   Mendapatkan rekomendasi perjalanan
 
-Otoritas Tinggi
-Memiliki akses penuh terhadap sistem termasuk pengelolaan jalur KRL.
+------------------------------------------------------------------------
 
-Otoritas Menengah
-Memiliki akses pengelolaan data stasiun dan statistik penumpang.
+## ⚙️ Fitur Utama
 
-Pengguna Umum (Rendah)
-Hanya dapat melihat rute dan mendapatkan rekomendasi perjalanan.
+### 1️⃣ Menampilkan Data (Read)
 
-Fitur Utama
-1. Menampilkan Data (Read)
+- Melihat Data Seluruh Penumpang.
+- Melihat Data Penumpang Bedasarkan ID.
+- Meliat Data dan Statistik Penumpang  Bedasarkan Line.
+- Mencari Rekomendasi Rute yang Akan di Lalui.
 
-Menampilkan seluruh jalur KRL dan daftar stasiun
+**Akses:** Otoritas Rendah, Menengah, & Tinggi
 
-Menampilkan rute perjalanan yang akan dilewati pengguna
+### 2️⃣ Menambahkan Data (Create)
+-   Menambahkan stasiun baru
+-   Input data perjalanan penumpang
 
-Menampilkan data penumpang (akses otoritas)
+**Akses:** Otoritas Tinggi
+### 3️⃣ Mengubah Data (Update)
 
-Menampilkan statistik penumpang
+-   Update status stasiun (aktif / nonaktif)
+-   Update data kepala cabang (Otoritas)
 
-2. Menambahkan Data (Create)
+**Akses:** Otoritas Menengah & Tinggi
 
-Input data perjalanan penumpang
+### 4️⃣ Menghapus Data (Delete)
 
-Penyimpanan data untuk kebutuhan analisis statistik
+-   Menghapus data penumpang
 
-Validasi input stasiun keberangkatan dan tujuan
+**Akses:** Otoritas Tinggi
+------------------------------------------------------------------------
 
-3. Mengubah Data (Update)
+## 🔐 Sistem Otorisasi (Hierarki)
 
-Update nama stasiun
+    Otoritas Tinggi
+          ↓
+    Otoritas Menengah
+          ↓
+    Pengguna Umum
 
-Update status stasiun (aktif / nonaktif)
+------------------------------------------------------------------------
 
-Update jalur jika terjadi perubahan rute
+## 🗂️ Struktur Data Sistem
 
-(Akses: Otoritas Menengah dan Tinggi)
+Program menggunakan:
 
-4. Menghapus Data (Delete)
-
-Menghapus stasiun dari sistem (Otoritas Menengah)
-
-Menghapus jalur KRL (Otoritas Tinggi)
-
-Sistem Otorisasi (Hierarki Akses)
-
-Sistem menggunakan konsep hierarki akses:
-
-Otoritas Tinggi
-      ↓
-Otoritas Menengah
-      ↓
-Pengguna Umum
-
-Otoritas tingkat lebih tinggi dapat mengakses fitur tingkat di bawahnya.
-
-Struktur Data Sistem
-
-Program menggunakan struktur data Python:
-
-List
-
-Dictionary
-
-Nested Dictionary
+-   List
+-   Dictionary
+-   Nested Dictionary
 
 Struktur utama:
 
-List Jalur KRL
-    → Dictionary Line
-        → Dictionary Stasiun
-        → Dictionary Cabang (jika ada)
+    List Jalur KRL
+        → Dictionary Line
+            → Dictionary Stasiun
+            → Dictionary Cabang (jika ada)
 
-Setiap stasiun memiliki atribut:
+------------------------------------------------------------------------
 
-Kode stasiun
-
-Nama stasiun
-
-Status operasional
-
-Penanganan Percabangan Rute
-
-Beberapa jalur KRL memiliki percabangan, seperti pada Cikarang Line.
-Sistem menangani percabangan dengan memisahkan:
-
-Stasiun utama (jalur linear)
-
-Cabang rute (jalur lanjutan)
-
-Pendekatan ini memudahkan pengelolaan data dan pengembangan fitur rekomendasi perjalanan.
-
-Alur Program
-
-Pengguna masuk ke sistem
-
-Sistem menentukan kategori pengguna berdasarkan data otoritas
-
-Menu ditampilkan sesuai hak akses
-
-Pengguna memilih fitur yang diinginkan
-
-Sistem memproses data sesuai perintah CRUD
-
-Cara Menjalankan Program
+## ▶️ Cara Menjalankan Program
 
 Pastikan Python sudah terpasang:
 
-python --version
+    python --version
 
 Jalankan program:
 
-python capstone5.py
+    python Sistem_informasi_dan_pengelolaan_KRL.py
 
-Program akan menampilkan menu interaktif pada terminal.
+------------------------------------------------------------------------
 
-Teknologi yang Digunakan
+## 🧰 Teknologi yang Digunakan
 
-Programming Language : Python 3
-Libraries : Standard Python Library
-Runtime Environment : Local Machine
-Editor : Visual Studio Code
+-   Programming Language : Python 3
+-   Libraries : Standard Python Library
+-   Runtime Environment : Local Machine
+-   Editor : Visual Studio Code
 
-Tujuan Pembelajaran
+------------------------------------------------------------------------
 
-Proyek ini bertujuan untuk melatih:
+## 👤 Creator
 
-Pemahaman struktur data Python
+Nama: Akbar Kanugraha\
+Program: Data Science & Machine Learning\
+Institution: Purwadhika Digital School
 
-Implementasi CRUD
+------------------------------------------------------------------------
 
-Logika percabangan program
-
-Validasi input
-
-Perancangan sistem berbasis hierarki
-
-Simulasi sistem dunia nyata
-
-Pengembangan Lanjutan
-
-Sistem dapat dikembangkan menjadi:
-
-Integrasi database nyata (SQL / NoSQL)
-
-Visualisasi rute transportasi
-
-Analisis statistik penumpang
-
-Sistem rekomendasi rute otomatis
-
-Antarmuka grafis (GUI / Web)
+⭐ Project ini dibuat sebagai bagian dari Capstone Project Modul 1.
